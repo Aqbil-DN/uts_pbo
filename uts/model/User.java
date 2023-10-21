@@ -70,41 +70,38 @@ public class User {
         });
 
         int deletedPostCount = 0;
-        for (Post post : sortedPosts) {
-            ContentState state = post.getStatus();
-            if (state == ContentState.DELETED) {
-                deletedPostCount++;
-            } else {
-                if (post instanceof Reel) {
-                    Reel reel = (Reel) post;
-                    System.out.println("Post ID: " + reel.getPostId() +
-                            ", Status: " + reel.getStatus() +
-                            ", Type: " + reel.getPostType() +
-                            ", Time Upload: " + reel.getTimeUpload() +
-                            ", Play Count: " + reel.getPlayCount());
-                } else {
-                    if (post instanceof Feed) {
-                        Feed feed = (Feed) post;
-                        System.out.println("Post ID: " + feed.getPostId() +
-                                ", Status: " + feed.getStatus() +
-                                ", Type: " + feed.getPostType() +
-                                ", Time Upload: " + feed.getTimeUpload() +
-                                ", Likes: " + feed.getLikes());
-                    } else {
-                        if (post instanceof Story) {
-                            Story story = (Story) post;
-                            System.out.println("Post ID: " + story.getPostId() +
-                                    ", Status: " + story.getStatus() +
-                                    ", Type: " + story.getPostType() +
-                                    ", Time Upload: " + story.getTimeUpload() +
-                                    ", Views: " + story.getView());
-                        }
-                    }
-                }
-            }
+for (int i = 0; i < sortedPosts.size(); i++) {
+    Post post = sortedPosts.get(i);
+    ContentState state = post.getStatus();
+    if (state == ContentState.DELETED) {
+        deletedPostCount++;
+    } else {
+        if (post instanceof Reel) {
+            Reel reel = (Reel) post;
+            System.out.println("Post ID: " + reel.getPostId() +
+                    ", Status: " + reel.getStatus() +
+                    ", Type: " + reel.getPostType() +
+                    ", Time Upload: " + reel.getTimeUpload() +
+                    ", Play Count: " + reel.getPlayCount());
+        } else if (post instanceof Feed) {
+            Feed feed = (Feed) post;
+            System.out.println("Post ID: " + feed.getPostId() +
+                    ", Status: " + feed.getStatus() +
+                    ", Type: " + feed.getPostType() +
+                    ", Time Upload: " + feed.getTimeUpload() +
+                    ", Likes: " + feed.getLikes());
+        } else if (post instanceof Story) {
+            Story story = (Story) post;
+            System.out.println("Post ID: " + story.getPostId() +
+                    ", Status: " + story.getStatus() +
+                    ", Type: " + story.getPostType() +
+                    ", Time Upload: " + story.getTimeUpload() +
+                    ", Views: " + story.getView());
         }
-        System.out.println("Number of deleted posts: " + deletedPostCount);
     }
+}
+System.out.println("Number of deleted posts: " + deletedPostCount);
+
 
     public void changePostState(Post post, ContentState newStatus) {
         if (!list_post.contains(post)) {
@@ -150,14 +147,16 @@ public class User {
     }
 
     private int countPinnedFeeds() {
-        int pinnedCount = 0;
-        for (Post post : list_post) {
-            if (post.getPostType() == ContentType.PICTURE && post.getStatus() == ContentState.PINNED) {
-                pinnedCount++;
-            }
+    int pinnedCount = 0;
+    for (int i = 0; i < list_post.size(); i++) {
+        Post post = list_post.get(i);
+        if (post.getPostType() == ContentType.PICTURE && post.getStatus() == ContentState.PINNED) {
+            pinnedCount++;
         }
-        return pinnedCount;
     }
+    return pinnedCount;
+    }
+
     public User(String userID, String username, String password, String bio, ArrayList<Post> list_post) {
         this.userID = userID;
         this.username = username;
